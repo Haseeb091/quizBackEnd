@@ -8,14 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+
+import java.time.Year;
+import java.util.*;
 
 
 @SpringBootApplication
@@ -60,7 +63,26 @@ public class FilmBackendApplication {
 	}
 
 
+	@GetMapping("/updateyear")
+	String updateAllFilms() {
 
+//put in try catch
+// or figure out error code handling
+
+		ArrayList<Film> a =new ArrayList<Film>();
+		a.addAll(filmRepository.findAll());
+
+		for (Film film:a) {
+			Random r=new Random();
+
+			film.setLanguageId(r.nextInt(1,6));
+			filmRepository.save(film);
+		}
+		//was meant to be film change it
+
+		return "update complete";
+
+	}
 	@PutMapping("/actor/{id}")
 	Actor replaceEmployee(@RequestBody Actor newActor, @PathVariable int id) {
 
@@ -74,6 +96,9 @@ public class FilmBackendApplication {
 					newActor.setActorid(id);
 					return actorRepository.save(newActor);
 				});
+
+
+
 	}
 
 	@DeleteMapping("/actor/{id}")
@@ -101,7 +126,8 @@ public class FilmBackendApplication {
 		return filmRepository.save(newFilmJson);
 	}
 	@GetMapping("/test")
-	public @ResponseBody Iterable<Object>  testFilm() {
+	public @ResponseBody Page<Film> testFilm() {
+		//need to make separte mapping for each query
 
 		//return filmRepository.findDuration(5,6);
 		//Iterable<FilmModel> models=filmRepository.test();
@@ -118,7 +144,9 @@ public class FilmBackendApplication {
 //
 //
 //		return  modelsList;
-		return filmRepository.getCategoryQuiz();
+
+		Pageable pageable = PageRequest.of(0, 10);
+		return filmRepository.findDuration(0,100,pageable);
 	}
 
 }
