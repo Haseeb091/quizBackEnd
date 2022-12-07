@@ -34,10 +34,11 @@ public class FilmBackendApplication {
 	@Autowired
 	private FilmRepository filmRepository;
 
-	public FilmBackendApplication(ActorRepository ar,FilmRepository fr){
+	public FilmBackendApplication(ActorRepository ar, FilmRepository fr){
 		this.actorRepository=ar;
-
 		this.filmRepository=fr;
+
+
 
 	}
 	public static void main(String[] args) {
@@ -53,8 +54,8 @@ public class FilmBackendApplication {
 	@GetMapping("/actor/{id}")
 	public @ResponseBody Actor oneActor(@PathVariable int id) {
 
-		return actorRepository.findById(id)
-				.orElseThrow(() -> new ResourceAccessException("cant acsess "+id));
+		return actorRepository.findById(1)
+				.orElseThrow(() -> new ResourceAccessException("cant acsess "+1));
 	}
 
 	@PostMapping("/newactor")
@@ -93,7 +94,7 @@ public class FilmBackendApplication {
 					return actorRepository.save(actor);
 				})
 				.orElseGet(() -> {
-					newActor.setActorid(id);
+					newActor.setActorId(id);
 					return actorRepository.save(newActor);
 				});
 
@@ -125,8 +126,8 @@ public class FilmBackendApplication {
 	public @ResponseBody Film newFilm(@RequestBody Film newFilmJson) {
 		return filmRepository.save(newFilmJson);
 	}
-	@GetMapping("/test")
-	public @ResponseBody Page<Film> testFilm() {
+	@GetMapping("/actorsNotInMovie")
+	public @ResponseBody Iterable<Object> actorsNotInParticlularMovie(@RequestBody Film film) {
 		//need to make separte mapping for each query
 
 		//return filmRepository.findDuration(5,6);
@@ -145,8 +146,46 @@ public class FilmBackendApplication {
 //
 //		return  modelsList;
 
-		Pageable pageable = PageRequest.of(0, 10);
-		return filmRepository.findDuration(0,100,pageable);
+		//Pageable pageable = PageRequest.of(0, 10);
+		return filmRepository.getActorsNotInMovie(film.getTitle());
 	}
+
+	// another querry needed to get the language and anotherone to get languages that are not equal to input parameter
+
+	@GetMapping("/actorsInMovie")
+	public @ResponseBody Iterable<Model> getTwoActorsFromMovie(@RequestBody Film film) {
+
+
+
+		return filmRepository.getTwoActorsFromMovie(film.getTitle());
+	}
+
+	@GetMapping("/getMoviesWhichHaveAtLeastThreeActor")
+	public @ResponseBody Iterable<Object> getMoviesWhichHaveAtLeastThreeActor() {
+
+
+
+		return filmRepository.getMoviesWhichHaveAtLeastThreeActor();
+	}
+
+	@GetMapping("/getMovieInCategory")
+	public @ResponseBody Iterable<Object> getMovieInCategory(@RequestBody Category cat) {
+
+
+
+		return filmRepository.getMovieInCat(cat.getCategoryName(),5);
+	}
+
+
+}
+
+
+ interface ActorModel {
+	int getFilmid();
+	String getTitle();
+	String getDescription();
+	int getActorid();
+
+
 
 }

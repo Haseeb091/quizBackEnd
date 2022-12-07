@@ -11,6 +11,8 @@ import java.util.Set;
 public class Actor {
 
 
+
+
     @Id
     @Column(name = "actor_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,29 +24,17 @@ public class Actor {
 
     @Column(name = "first_name")
     private String firstName;
-
     @Column(name = "last_name")
     private String lastName;
 
-public Actor(){
-
-
-}
-
-    public Actor(String firstName,String lastName){
-
-        this.firstName=firstName;
-
-        this.lastName=lastName;
-    }
-
-    public int getActorid() {
+    public int getActorId() {
         return actorId;
     }
 
-    public void setActorid(int actorid) {
-        this.actorId = actorid;
+    public void setActorId(int actorId) {
+        this.actorId = actorId;
     }
+
 
 
     public String getFirstName() {
@@ -62,4 +52,22 @@ public Actor(){
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+
+public Actor(){
+
+
+}
+
+    public Actor(String firstName,String lastName){
+
+        this.firstName=firstName;
+
+        this.lastName=lastName;
+    }
+
+
+
+
+
 }

@@ -16,43 +16,26 @@ public interface FilmRepository extends JpaRepository<Film,Integer> {
 
 
 
-
-
-
-
-
-
 //get 2 random actors in movie
-    @Query(value = "    SELECT subquery.filmid AS filmid," +
-            "    subquery.actorid AS actorid," +
-            "    subquery.title AS title," +
-            "    subquery.description AS description" +
-            "    FROM (" +
-            "            Select film.film_id AS filmid,film.title AS title,actor.actor_id AS actorid,film.description As description" +
+    @Query(value =
+            "            Select actor.actor_id AS actorid,actor.first_name As name, film.film_id As filmid" +
             "    FROM film" +
-            "            INNER JOIN film_actor ON film.film_id = film_actor.film_id "+
-            "INNER JOIN actor ON film_actor.actor_id = actor.actor_id"+
-            " WHERE film.title LIKE '%ACADEMY%' ORDER BY rand() LIMIT 2" +
-            ") subquery" +
-            "    Order by actorid", nativeQuery = true)
-    Iterable<Model> getTwoActorsFromMovie();
+            " INNER JOIN film_actor ON film.film_id = film_actor.film_id "+
+            " INNER JOIN actor ON film_actor.actor_id = actor.actor_id"+
+            " WHERE film.title = :title "+ " ORDER BY rand() LIMIT 2"
+            , nativeQuery = true)
+    Iterable<Model> getTwoActorsFromMovie(@Param("title") String title);
 //move to actor
 
-    @Query(value = "    SELECT subquery.filmid AS filmid," +
-            "    subquery.actorid AS actorid," +
-            "    subquery.title AS title," +
-            "    subquery.description AS description" +
-            "    FROM (" +
-            "            Select film.film_id AS filmid,film.title AS title,actor.actor_id AS actorid,film.description As description" +
+    @Query(value =
+            "            Select DISTINCT actor.actor_id AS actorid,actor.first_name As name" +
             "    FROM film" +
             "            INNER JOIN film_actor ON film.film_id = film_actor.film_id "+
             "INNER JOIN actor ON film_actor.actor_id = actor.actor_id"+
-            " WHERE film.title NOT LIKE '%ACADEMY%' ORDER BY rand() LIMIT 4" +
-            ") subquery" +
-            "    Order by actorid", nativeQuery = true)
-    Iterable<Model> getNotActorsInMovie();
+            " WHERE film.title != :title  ORDER BY rand() " , nativeQuery = true)
+    Iterable<Object> getActorsNotInMovie(@Param("title") String title);
     //get actors which are not in movie
-    //change querry so it goes in actors
+    //change query so it goes in actors
 
 
     @Query(value =
@@ -60,17 +43,8 @@ public interface FilmRepository extends JpaRepository<Film,Integer> {
             "    FROM film" +
             "            INNER JOIN film_actor ON film.film_id = film_actor.film_id "+
             "INNER JOIN actor ON film_actor.actor_id = actor.actor_id"+
-            " GROUP BY filmid "+" HAVING COUNT(actor.actor_id)>10 " , nativeQuery = true)
-    Iterable<Object> getMoviesWhichHaveAtLeastOneActor();
-// gets movies with at least 1 actor change to 1
-    @Query(value =
-            "            Select film.film_id AS filmid,film.title AS title,film.description As description" +
-                    "    FROM film" +
-                    "            INNER JOIN film_actor ON film.film_id = film_actor.film_id "+
-                    "INNER JOIN actor ON film_actor.actor_id = actor.actor_id"+
-                    " GROUP BY filmid "+" HAVING COUNT(actor.actor_id)>10 " , nativeQuery = true)
-    Iterable<Object> getCat();
-
+            " GROUP BY filmid "+" HAVING COUNT(actor.actor_id)>3 " , nativeQuery = true)
+    Iterable<Object> getMoviesWhichHaveAtLeastThreeActor();
 
 
 
@@ -83,7 +57,7 @@ public interface FilmRepository extends JpaRepository<Film,Integer> {
            " order by rand() "+
            " limit ?2 ;" , nativeQuery = true)
     Iterable<Object> getMovieInCat(String cat, int dataLimit);
-    // get certain amount of movies from cat
+    // get certain amount of random movies from cat
 
 
 
@@ -97,6 +71,34 @@ public interface FilmRepository extends JpaRepository<Film,Integer> {
                     " limit ?2 ;" , nativeQuery = true)
     Iterable<Object> getMovieNotInCat(String cat, int dataLimit);
 
+
+
+    @Query(value =
+            "Select Distinct category.name FROM film_category "+
+                    "INNER JOIN category ON film_category.category_id = category.category_id;"
+            , nativeQuery = true)
+    Iterable<Category> getCategoryQuiz();
+
+    //get all categories that have been used in films
+    // move this query
+
+
+    @Query(value =
+            "Select * FROM film "+
+                    "INNER JOIN language ON film.language_id = language.language_id;"
+            , nativeQuery = true)
+    Iterable<Object> getLanguageAndFilms();
+
+
+// gets movies with at least 1 actor change to 1
+//    @Query(value =
+//            "            Select film.film_id AS filmid,film.title AS title,film.description As description" +
+//                    "    FROM film" +
+//                    "            INNER JOIN film_actor ON film.film_id = film_actor.film_id "+
+//                    "INNER JOIN actor ON film_actor.actor_id = actor.actor_id"+
+//                    " GROUP BY filmid "+" HAVING COUNT(actor.actor_id)>10 " , nativeQuery = true)
+//    Iterable<Object> getCat();
+
 //    @Query(value =
 //            "Select * FROM film "+
 //                    " INNER JOIN film_category ON film.film_id = film_category.film_id "+
@@ -105,12 +107,4 @@ public interface FilmRepository extends JpaRepository<Film,Integer> {
 //                    " limit 1 ;" , nativeQuery = true)
 //    Iterable<Object> getMovieForCategoryQuiz(String cat);
 
-    @Query(value =
-            "Select Distinct category.name FROM film_category "+
-                    "INNER JOIN category ON film_category.category_id = category.category_id;"
-            , nativeQuery = true)
-    Iterable<Object> getCategoryQuiz();
-
-    //get all categories that have been used in films
-    // move this query
 }

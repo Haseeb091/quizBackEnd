@@ -20,7 +20,9 @@ public class Film {
     @OneToMany(mappedBy = "film" ,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<FilmActor> filmActors = new HashSet<>();
 
-
+    @ManyToOne
+    @JoinColumn(name = "language_id", insertable=false, updatable=false)
+    Language language;
 
 
     @Column(name = "title")
