@@ -12,9 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.time.Year;
@@ -54,8 +56,13 @@ public class FilmBackendApplication {
 	@GetMapping("/actor/{id}")
 	public @ResponseBody Actor oneActor(@PathVariable int id) {
 
-		return actorRepository.findById(1)
-				.orElseThrow(() -> new ResourceAccessException("cant acsess "+1));
+
+		return actorRepository.findById(id)
+				.orElseThrow(() -> new ResourceAccessException("cant acsess "+400));
+
+
+
+
 	}
 
 	@PostMapping("/newactor")
@@ -64,8 +71,8 @@ public class FilmBackendApplication {
 	}
 
 
-	@GetMapping("/updateyear")
-	String updateAllFilms() {
+	@GetMapping("/updateLanguageId")
+	String updateLanguageId() {
 
 //put in try catch
 // or figure out error code handling
@@ -79,7 +86,7 @@ public class FilmBackendApplication {
 			film.setLanguageId(r.nextInt(1,6));
 			filmRepository.save(film);
 		}
-		//was meant to be film change it
+
 
 		return "update complete";
 
@@ -128,29 +135,11 @@ public class FilmBackendApplication {
 	}
 	@GetMapping("/actorsNotInMovie")
 	public @ResponseBody Iterable<Object> actorsNotInParticlularMovie(@RequestBody Film film) {
-		//need to make separte mapping for each query
 
-		//return filmRepository.findDuration(5,6);
-		//Iterable<FilmModel> models=filmRepository.test();
-//		List<FilmModel> modelsList= new ArrayList<FilmModel>();
-//		if(models != null) {
-//			for(FilmModel e: models) {
-//				modelsList.add(e);
-//			}
-//		}
-//
-//		Comparator<FilmModel> compareById =
-//				(FilmModel o1, FilmModel o2) -> o1.getTitle().compareTo( o2.getTitle() );
-//		Collections.sort(modelsList, compareById);
-//
-//
-//		return  modelsList;
-
-		//Pageable pageable = PageRequest.of(0, 10);
 		return filmRepository.getActorsNotInMovie(film.getTitle());
 	}
 
-	// another querry needed to get the language and anotherone to get languages that are not equal to input parameter
+	// another query needed to get the language and another one to get languages that are not equal to input parameter
 
 	@GetMapping("/actorsInMovie")
 	public @ResponseBody Iterable<Model> getTwoActorsFromMovie(@RequestBody Film film) {
