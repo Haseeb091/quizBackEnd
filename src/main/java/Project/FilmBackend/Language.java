@@ -1,5 +1,6 @@
 package Project.FilmBackend;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -21,26 +22,22 @@ public class Language {
 
 
     @Column(name = "name")
-    private String categoryName;
+    private String name;
 
 
     @Column(name = "last_update")
     private Date lastUpdate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "language" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)// this one broke it when eager ??
-    private Set<Film> films = new HashSet<>();
+     Set<Film> films = new HashSet<>();
 
     public Language(){
 
 
     }
 
-    public Language(int languageId){
 
-        this.languageId=languageId;
-
-
-    }
 
     public int getLanguageId() {
         return languageId;
@@ -50,12 +47,12 @@ public class Language {
         this.languageId = languageId;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getLastUpdate() {

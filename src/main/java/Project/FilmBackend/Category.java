@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -12,6 +13,21 @@ import java.util.Set;
 public class Category {
 
 
+    @Id
+    @Column(name = "category_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int categoryId;
+
+
+    @Column(name = "name")
+    private String categoryName;
+
+    @ManyToMany(mappedBy="categories")
+    private List<Film> films;
+
+
+    @Column(name = "last_update")
+    private Date lastUpdate;
     public int getCategoryId() {
         return categoryId;
     }
@@ -36,29 +52,8 @@ public class Category {
         this.lastUpdate = lastUpdate;
     }
 
-    public Set<FilmCategory> getFilmCategories() {
-        return filmCategories;
-    }
-
-    public void setFilmCategories(Set<FilmCategory> filmCategories) {
-        this.filmCategories = filmCategories;
-    }
-
-    @Id
-    @Column(name = "category_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int categoryId;
 
 
-    @Column(name = "name")
-    private String categoryName;
-
-
-    @Column(name = "last_update")
-    private Date lastUpdate;
-
-    @OneToMany(mappedBy = "category" ,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<FilmCategory> filmCategories = new HashSet<>();
 
     public Category(){
 

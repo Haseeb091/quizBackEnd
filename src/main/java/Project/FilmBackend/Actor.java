@@ -4,6 +4,7 @@ package Project.FilmBackend;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,10 +17,12 @@ public class Actor {
     @Id
     @Column(name = "actor_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int actorId;
+    private int actorId;
 
-    @OneToMany(mappedBy = "actor" ,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<FilmActor> filmActors = new HashSet<>();
+
+
+    @ManyToMany(mappedBy="actors")
+    private List<Film> films;
 
 
     @Column(name = "first_name")
@@ -35,7 +38,13 @@ public class Actor {
         this.actorId = actorId;
     }
 
+    public List<Film> getFilms() {
+        return films;
+    }
 
+    public void setFilms(List<Film> films) {
+        this.films = films;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -59,12 +68,7 @@ public Actor(){
 
 }
 
-    public Actor(String firstName,String lastName){
 
-        this.firstName=firstName;
-
-        this.lastName=lastName;
-    }
 
 
 

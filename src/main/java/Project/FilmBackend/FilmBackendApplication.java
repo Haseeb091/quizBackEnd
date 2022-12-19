@@ -5,21 +5,14 @@ package Project.FilmBackend;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
-import org.springframework.web.server.ResponseStatusException;
 
 
-import java.time.Year;
+
+import java.sql.Date;
+
 import java.util.*;
 
 
@@ -36,9 +29,13 @@ public class FilmBackendApplication {
 	@Autowired
 	private FilmRepository filmRepository;
 
-	public FilmBackendApplication(ActorRepository ar, FilmRepository fr){
+	@Autowired
+	private LanguageRepository languageRepository;
+
+	public FilmBackendApplication(ActorRepository ar, FilmRepository fr,LanguageRepository lr){
 		this.actorRepository=ar;
 		this.filmRepository=fr;
+		this.languageRepository=lr;
 
 
 
@@ -59,6 +56,7 @@ public class FilmBackendApplication {
 
 		return actorRepository.findById(id)
 				.orElseThrow(() -> new ResourceAccessException("cant acsess "+400));
+//
 
 
 
@@ -74,8 +72,7 @@ public class FilmBackendApplication {
 	@GetMapping("/updateLanguageId")
 	String updateLanguageId() {
 
-//put in try catch
-// or figure out error code handling
+
 
 		ArrayList<Film> a =new ArrayList<Film>();
 		a.addAll(filmRepository.findAll());
@@ -125,7 +122,10 @@ public class FilmBackendApplication {
 	@GetMapping("/film/{id}")
 	public @ResponseBody Film oneFilm(@PathVariable int id) {
 
-		return filmRepository.findById(id)
+//		return filmRepository.findById(1)
+//				.orElseThrow(() -> new ResourceAccessException("cant acsess "+id));
+
+		return filmRepository.findById(1)
 				.orElseThrow(() -> new ResourceAccessException("cant acsess "+id));
 	}
 
@@ -133,48 +133,91 @@ public class FilmBackendApplication {
 	public @ResponseBody Film newFilm(@RequestBody Film newFilmJson) {
 		return filmRepository.save(newFilmJson);
 	}
-	@GetMapping("/actorsNotInMovie")
-	public @ResponseBody Iterable<Object> actorsNotInParticlularMovie(@RequestBody Film film) {
 
-		return filmRepository.getActorsNotInMovie(film.getTitle());
+//this ones working
+	@GetMapping("/getRandomMovies/{seed}/{dataLimit}")
+	public @ResponseBody
+	Iterable<Film> getRandomMovies(@PathVariable int seed, @PathVariable int dataLimit) {
+		try {
+
+
+			return	filmRepository.getRandomFilms(dataLimit,seed);
+		}catch (Exception e){
+
+			throw e;
+		}
+
+
 	}
 
 	// another query needed to get the language and another one to get languages that are not equal to input parameter
 
-	@GetMapping("/actorsInMovie")
-	public @ResponseBody Iterable<Model> getTwoActorsFromMovie(@RequestBody Film film) {
 
 
 
-		return filmRepository.getTwoActorsFromMovie(film.getTitle());
-	}
-
-	@GetMapping("/getMoviesWhichHaveAtLeastThreeActor")
-	public @ResponseBody Iterable<Object> getMoviesWhichHaveAtLeastThreeActor() {
-
-
-
-		return filmRepository.getMoviesWhichHaveAtLeastThreeActor();
-	}
 
 	@GetMapping("/getMovieInCategory")
 	public @ResponseBody Iterable<Object> getMovieInCategory(@RequestBody Category cat) {
 
 
 
-		return filmRepository.getMovieInCat(cat.getCategoryName(),5);
+		return filmRepository.getMovieNotInCat(cat.getCategoryName(),5);
 	}
 
+	@GetMapping("/getYearQuestion/{seed}/{id}")
+	public @ResponseBody BasicFilmQuestion getYearQuestion(@PathVariable int id,@PathVariable int seed) {
+		// recive movie id try to obtain movie
+		// then send to fr to get movies not made in year
+		// then add to custom object and send back
+
+//		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException("cant acsess "+400));;
+//		Iterable<Film> incorrectMovies =  filmRepository.getMoviesNotOfYear(filmQuestion.getReleaseYear(),3);
+//		ArrayList<String>incorrectOptions=new ArrayList<>();
+//		for (Film incorrectMovie:incorrectMovies) {
+//
+//			incorrectOptions.add(incorrectMovie.getReleaseYear().toString());
+//
+//
+//		}
+//		 BasicFilmQuestion basicFilmQuestion=new BasicFilmQuestion(filmQuestion,incorrectOptions);
+//		return basicFilmQuestion;
+
+
+		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException("cant acsess "+400));;
+
+		ArrayList<Date>filmDates=filmRepository.getMoviesNotOfYear(filmQuestion.getReleaseYear(),3,seed);;
+		ArrayList<String>incorrectOptions=new ArrayList<>();
+
+
+		for (Date filmDate:filmDates) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(filmDate);
+			calendar.get(Calendar.YEAR);
+			incorrectOptions.add(calendar.get(Calendar.YEAR)+"");
+
+		}
+		BasicFilmQuestion basicFilmQuestion=new BasicFilmQuestion(filmQuestion.getTitle(),"year",incorrectOptions,filmQuestion.getReleaseYear().toString(),seed);
+		return basicFilmQuestion;
+	//	return filmRepository.getMovieNotInCat(cat.getCategoryName(),5);
+	}
+
+	@GetMapping("/getLanguageQuestion/{seed}/{id}")
+	public @ResponseBody BasicFilmQuestion getLanguageQuestion(@PathVariable int id,@PathVariable int seed) {
+
+
+		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException("cant acsess "+400));;
+
+
+		ArrayList<String>incorrectOptions=languageRepository.getRandomLanguages(3,seed,filmQuestion.getLanguageId());
+
+
+
+
+		BasicFilmQuestion basicFilmQuestion=new BasicFilmQuestion(filmQuestion.getTitle(),"language",incorrectOptions,filmQuestion.getLanguage().getName(),seed);
+		return basicFilmQuestion;
+		//	return filmRepository.getMovieNotInCat(cat.getCategoryName(),5);
+	}
 
 }
 
 
- interface ActorModel {
-	int getFilmid();
-	String getTitle();
-	String getDescription();
-	int getActorid();
-
-
-
-}

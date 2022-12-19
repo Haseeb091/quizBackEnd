@@ -15,6 +15,7 @@ public class ShowSingleActorStepDef {
 
     int actorId;
 
+
     Actor chosenActor;
 
     @Given("actor exists with id {int}")

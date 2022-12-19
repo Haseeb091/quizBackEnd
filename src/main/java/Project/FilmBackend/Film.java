@@ -1,10 +1,12 @@
 package Project.FilmBackend;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.Year;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,12 +19,28 @@ public class Film {
   private   int filmId;
 
 
-    @OneToMany(mappedBy = "film" ,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<FilmActor> filmActors = new HashSet<>();
 
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name="film_actor",
+            joinColumns=@JoinColumn(name="film_id", referencedColumnName="film_id"),
+            inverseJoinColumns=@JoinColumn(name="actor_id", referencedColumnName="actor_id"))
+    private List<Actor> actors ;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name="film_category",
+            joinColumns=@JoinColumn(name="film_id", referencedColumnName="film_id"),
+            inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="category_id"))
+     private List<Category> categories;
+
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "language_id", insertable=false, updatable=false)
-    Language language;
+    private Language language;
 
 
     @Column(name = "title")
@@ -32,36 +50,33 @@ public class Film {
     private String description;
     @Column(name = "release_year")
     private Year releaseYear;
-
+//
     @Column(name = "language_id")
     private int languageId;
 
+    public List<Actor> getActors() {
+        return actors;
+    }
 
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
+    }
 
-    @Column(name = "original_language_id")
-    private Integer originalLanguageId;
+    public List<Category> getCategories() {
+        return categories;
+    }
 
-    @Column(name = "rental_duration")
-    private int rentalDuration;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 
-    @Column(name = "rental_rate")
-    private int rentalRate;
+    public Language getLanguage() {
+        return language;
+    }
 
-    @Column(name = "length")
-    private int length;
-
-    @Column(name = "replacement_cost")
-    private double replacementCost;
-
-    @Column(name = "rating")
-    private String rating;
-
-    @Column(name = "special_features")
-    private String specialFeatures;
-
-    // is timestamp
-    @Column(name = "last_update")
-    private Date lastUpdate;
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
 
     public int getFilmid() {
         return filmId;
@@ -95,7 +110,7 @@ public class Film {
         this.releaseYear=releaseYear;
 
     }
-
+//
     public int getLanguageId() {
         return languageId;
     }
@@ -104,69 +119,6 @@ public class Film {
         this.languageId = languageId;
     }
 
-    public int getRentalDuration() {
-        return rentalDuration;
-    }
-
-    public void setRentalDuration(int rentalDuration) {
-        this.rentalDuration = rentalDuration;
-
-    }
-
-    public int getRentalRate() {
-        return rentalRate;
-    }
-
-    public void setRentalRate(int rentalRate) {
-        this.rentalRate = rentalRate;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public double getReplacementCost() {
-        return replacementCost;
-    }
-
-    public void setReplacementCost(double replacementCost) {
-        this.replacementCost = replacementCost;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-    public String getSpecialFeatures() {
-        return specialFeatures;
-    }
-
-    public void setSpecialFeatures(String specialFeatures) {
-        this.specialFeatures = specialFeatures;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-    public Integer getOriginalLanguageId() {
-        return originalLanguageId;
-    }
-
-    public void setOriginalLanguageId(Integer originalLanguageId) {
-        this.originalLanguageId = originalLanguageId;
-    }
 
 
 
