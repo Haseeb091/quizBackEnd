@@ -72,9 +72,9 @@ public class FilmBackEndApplication {
 
 
 
-		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException("cant acsess "+400));;
+		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException(""));
 
-		ArrayList<Date>filmDates=filmRepository.getMoviesNotOfYear(filmQuestion.getReleaseYear(),3,seed);;
+		ArrayList<Date>filmDates=filmRepository.getMoviesNotOfYear(filmQuestion.getReleaseYear(),3,seed);
 		ArrayList<String>incorrectOptions=new ArrayList<>();
 
 
@@ -94,7 +94,7 @@ public class FilmBackEndApplication {
 	public @ResponseBody BasicFilmQuestion getLanguageQuestion(@PathVariable int id,@PathVariable int seed) {
 
 
-		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException("cant acsess "+400));;
+		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException(""));
 
 
 		ArrayList<String>incorrectOptions=languageRepository.getRandomLanguages(3,seed,filmQuestion.getLanguageId());
@@ -112,7 +112,7 @@ public class FilmBackEndApplication {
 	public @ResponseBody BasicFilmQuestion getActorQuestion(@PathVariable int id,@PathVariable int seed) {
 
 
-		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException("cant acsess "+400));;
+		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException(""));
 
 // use actor id to find film where actor not in there
 		List<Actor>allActors =filmQuestion.getActors();
@@ -131,7 +131,7 @@ public class FilmBackEndApplication {
 	public @ResponseBody BasicFilmQuestion getCategoryQuestion(@PathVariable int id,@PathVariable int seed) {
 
 
-		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException("cant acsess "+400));;
+		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException(""));
 
 // use actor id to find film where actor not in there
 		List<Category>categories =filmQuestion.getCategories();

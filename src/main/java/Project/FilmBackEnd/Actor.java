@@ -10,7 +10,14 @@ import java.util.List;
 public class Actor {
 
 
+    public Actor(int actorId,String firstName,String lastName){
 
+        this.actorId=actorId;
+        this.firstName=firstName;
+        this.lastName=lastName;
+
+
+    }
 
     @Id
     @Column(name = "actor_id")
@@ -61,10 +68,7 @@ public class Actor {
     }
 
 
-public Actor(){
 
-
-}
 
 
 

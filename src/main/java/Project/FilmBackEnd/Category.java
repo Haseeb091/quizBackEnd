@@ -58,9 +58,10 @@ public class Category {
 
     }
 
-    public Category(int categoryId){
+    public Category(int categoryId,String categoryName){
 
         this.categoryId=categoryId;
+        this.categoryName=categoryName;
 
 
     }
