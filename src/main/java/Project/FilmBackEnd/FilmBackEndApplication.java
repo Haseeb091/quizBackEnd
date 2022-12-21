@@ -13,7 +13,7 @@ import org.springframework.web.client.ResourceAccessException;
 
 import java.sql.Date;
 
-import java.time.Year;
+
 import java.util.*;
 
 
@@ -46,22 +46,6 @@ public class FilmBackEndApplication {
 	}
 
 
-
-
-
-
-
-	// film
-
-
-
-
-
-	@PostMapping("/film")
-	public @ResponseBody Film newFilm(@RequestBody Film newFilmJson) {
-		return filmRepository.save(newFilmJson);
-	}
-
 //this ones working
 	@GetMapping("/getRandomMovies/{seed}/{dataLimit}")
 	public @ResponseBody
@@ -81,13 +65,7 @@ public class FilmBackEndApplication {
 
 
 
-	@GetMapping("/getMovieInCategory")
-	public @ResponseBody Iterable<Object> getMovieInCategory(@RequestBody Category cat) {
 
-
-
-		return filmRepository.getMovieNotInCat(cat.getCategoryName(),5);
-	}
 
 	@GetMapping("/getYearQuestion/{seed}/{id}")
 	public @ResponseBody BasicFilmQuestion getYearQuestion(@PathVariable int id,@PathVariable int seed) {
@@ -107,9 +85,9 @@ public class FilmBackEndApplication {
 			incorrectOptions.add(calendar.get(Calendar.YEAR)+"");
 
 		}
-		BasicFilmQuestion basicFilmQuestion=new BasicFilmQuestion(filmQuestion.getTitle(),"year",incorrectOptions,filmQuestion.getReleaseYear().toString(),seed);
-		return basicFilmQuestion;
-	//	return filmRepository.getMovieNotInCat(cat.getCategoryName(),5);
+		return new BasicFilmQuestion(filmQuestion.getTitle(),"year",incorrectOptions,filmQuestion.getReleaseYear().toString(),seed);
+
+
 	}
 
 	@GetMapping("/getLanguageQuestion/{seed}/{id}")
@@ -124,9 +102,9 @@ public class FilmBackEndApplication {
 
 
 
-		BasicFilmQuestion basicFilmQuestion=new BasicFilmQuestion(filmQuestion.getTitle(),"language",incorrectOptions,filmQuestion.getLanguage().getName(),seed);
-		return basicFilmQuestion;
-		//	return filmRepository.getMovieNotInCat(cat.getCategoryName(),5);
+		return new BasicFilmQuestion(filmQuestion.getTitle(),"language",incorrectOptions,filmQuestion.getLanguage().getName(),seed);
+
+
 	}
 
 
@@ -143,10 +121,10 @@ public class FilmBackEndApplication {
 		ArrayList<String> incorrectOptions=filmRepository.getMoviesWhichDontHaveActorInThem(3,seed,actorQuestion.getActorId());
 
 
-		BasicFilmQuestion basicFilmQuestion=new BasicFilmQuestion(actorQuestion.getFirstName()+" "+actorQuestion.getLastName(),"actor",incorrectOptions,filmQuestion.getTitle(),seed);
-		return basicFilmQuestion;
+		return new BasicFilmQuestion(actorQuestion.getFirstName()+" "+actorQuestion.getLastName(),"actor",incorrectOptions,filmQuestion.getTitle(),seed);
 
-		//	return filmRepository.getMovieNotInCat(cat.getCategoryName(),5);
+
+
 	}
 
 	@GetMapping("/getCategoryQuestion/{seed}/{id}")
@@ -162,9 +140,8 @@ public class FilmBackEndApplication {
 		ArrayList<String> incorrectOptions=filmRepository.getMoviesWhichAreNotApartOfCategory(3,seed,categoryQuestion.getCategoryId());
 
 
-		BasicFilmQuestion basicFilmQuestion=new BasicFilmQuestion(categoryQuestion.getCategoryName(),"category",incorrectOptions,filmQuestion.getTitle(),seed);
 
-			return basicFilmQuestion;
+			return new BasicFilmQuestion(categoryQuestion.getCategoryName(),"category",incorrectOptions,filmQuestion.getTitle(),seed);
 	}
 
 }

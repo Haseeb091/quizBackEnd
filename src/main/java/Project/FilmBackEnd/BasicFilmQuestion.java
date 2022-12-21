@@ -21,7 +21,7 @@ public class BasicFilmQuestion {
     }
 
     public void setQuestion(String question) {
-        if(getQuestionType()==""){
+        if(getQuestionType().equals("")){
             setQuestion("");
 
         }else if(getQuestionType().equals("year")){
