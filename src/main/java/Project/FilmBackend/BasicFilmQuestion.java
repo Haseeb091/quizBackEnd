@@ -33,6 +33,9 @@ public class BasicFilmQuestion {
         }else if(getQuestionType()=="actor"){
             this.question="what movie was  "+question+" in?";
 
+        }else if(getQuestionType()=="category"){
+            this.question="what movie is apart of  "+question+" category?";
+
         }
     }
 

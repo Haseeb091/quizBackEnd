@@ -101,4 +101,17 @@ public interface FilmRepository extends JpaRepository<Film,Integer> {
                     " GROUP BY film.film_id "+
                     " order by rand(:seed) "+" limit :dataLimit ;" , nativeQuery = true)
     ArrayList<String> getMoviesWhichDontHaveActorInThem(@Param("dataLimit") int dataLimit,@Param("seed") int seed,@Param("actorId") int actorId);
+
+
+
+    @Query(value =
+            "            Select film.title AS title " +
+                    "    FROM film" +
+                    "    INNER JOIN film_category ON film.film_id = film_category.film_id "+
+                    " INNER JOIN category ON film_category.category_id = category.category_id "+
+                    " WHERE category.category_id != :catId "+
+                    " GROUP BY film.film_id "+
+                    " order by rand(:seed) "+" limit :dataLimit ;" , nativeQuery = true)
+    ArrayList<String> getMoviesWhichAreNotApartOfCategory(@Param("dataLimit") int dataLimit,@Param("seed") int seed,@Param("catId") int catId);
+
 }
