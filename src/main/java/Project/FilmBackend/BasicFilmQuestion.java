@@ -26,9 +26,12 @@ public class BasicFilmQuestion {
 
         }else if(getQuestionType()=="year"){
 
-            this.question="what year was the movie "+question+" created in";
+            this.question="what year was the movie "+question+" created in?";
         }else if(getQuestionType()=="language"){
-            this.question="what language was the movie "+question+" created in";
+            this.question="what language was the movie "+question+" created in?";
+
+        }else if(getQuestionType()=="actor"){
+            this.question="what movie was  "+question+" in?";
 
         }
     }

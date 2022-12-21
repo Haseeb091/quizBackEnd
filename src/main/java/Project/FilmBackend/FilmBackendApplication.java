@@ -125,7 +125,7 @@ public class FilmBackendApplication {
 //		return filmRepository.findById(1)
 //				.orElseThrow(() -> new ResourceAccessException("cant acsess "+id));
 
-		return filmRepository.findById(1)
+		return filmRepository.findById(id)
 				.orElseThrow(() -> new ResourceAccessException("cant acsess "+id));
 	}
 
@@ -217,6 +217,28 @@ public class FilmBackendApplication {
 		return basicFilmQuestion;
 		//	return filmRepository.getMovieNotInCat(cat.getCategoryName(),5);
 	}
+
+
+	@GetMapping("/getActorQuestion/{seed}/{id}")
+	public @ResponseBody BasicFilmQuestion getActorQuestion(@PathVariable int id,@PathVariable int seed) {
+
+
+		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException("cant acsess "+400));;
+
+// use actor id to find film where actor not in there
+		List<Actor>allActors =filmQuestion.getActors();
+		Collections.shuffle(allActors, new Random(seed));
+		Actor actorQuestion=allActors.get(0);
+		ArrayList<String> incorrectOptions=filmRepository.getMoviesWhichDontHaveActorInThem(3,seed,actorQuestion.getActorId());
+
+
+		BasicFilmQuestion basicFilmQuestion=new BasicFilmQuestion(actorQuestion.getFirstName()+" "+actorQuestion.getLastName(),"actor",incorrectOptions,filmQuestion.getTitle(),seed);
+		return basicFilmQuestion;
+
+		//	return filmRepository.getMovieNotInCat(cat.getCategoryName(),5);
+	}
+
+
 
 }
 

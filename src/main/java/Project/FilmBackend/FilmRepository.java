@@ -92,4 +92,13 @@ public interface FilmRepository extends JpaRepository<Film,Integer> {
 
 
 
+    @Query(value =
+            "            Select film.title AS title " +
+                    "    FROM film" +
+                    "            INNER JOIN film_actor ON film.film_id = film_actor.film_id "+
+                    " INNER JOIN actor ON film_actor.actor_id = actor.actor_id "+
+                    " WHERE actor.actor_id != :actorId "+
+                    " GROUP BY film.film_id "+
+                    " order by rand(:seed) "+" limit :dataLimit ;" , nativeQuery = true)
+    ArrayList<String> getMoviesWhichDontHaveActorInThem(@Param("dataLimit") int dataLimit,@Param("seed") int seed,@Param("actorId") int actorId);
 }
