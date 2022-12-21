@@ -1,7 +1,9 @@
 
-import Project.FilmBackEnd.Actor;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import project.filmbackend.Actor;
+
 public class ActorTest {
 
     @Test

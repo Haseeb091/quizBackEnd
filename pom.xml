@@ -8,10 +8,10 @@
 		<version>3.0.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>Project</groupId>
-	<artifactId>FilmBackEnd</artifactId>
+	<groupId>project</groupId>
+	<artifactId>filmbackend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>FilmBackEnd</name>
+	<name>filmbackend</name>
 	<description>Backend</description>
 	<properties>
 		<maven.compiler.source>18</maven.compiler.source>

@@ -1,4 +1,4 @@
-package Project.FilmBackEnd;
+package project.filmbackend;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;

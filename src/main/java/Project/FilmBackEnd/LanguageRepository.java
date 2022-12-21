@@ -1,4 +1,4 @@
-package Project.FilmBackEnd;
+package project.filmbackend;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

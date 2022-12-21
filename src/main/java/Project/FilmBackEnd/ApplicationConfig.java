@@ -1,4 +1,4 @@
-package Project.FilmBackEnd;
+package project.filmbackend;
 
 
 import org.springframework.context.annotation.Configuration;
