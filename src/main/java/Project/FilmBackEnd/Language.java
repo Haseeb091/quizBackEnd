@@ -1,4 +1,4 @@
-package Project.FilmBackend;
+package Project.FilmBackEnd;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

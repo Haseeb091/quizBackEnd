@@ -1,10 +1,10 @@
-package Project.FilmBackend;
+package Project.FilmBackEnd;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @CucumberContextConfiguration
-@SpringBootTest(classes = FilmBackendApplication.class )
+@SpringBootTest(classes = FilmBackEndApplication.class )
 public class CucumberContextConfig {
 
 

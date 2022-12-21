@@ -1,4 +1,4 @@
-package Project.FilmBackend;
+package Project.FilmBackEnd;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,16 +24,16 @@ public class BasicFilmQuestion {
         if(getQuestionType()==""){
             setQuestion("");
 
-        }else if(getQuestionType()=="year"){
+        }else if(getQuestionType().equals("year")){
 
             this.question="what year was the movie "+question+" created in?";
-        }else if(getQuestionType()=="language"){
+        }else if(getQuestionType().equals("language")){
             this.question="what language was the movie "+question+" created in?";
 
-        }else if(getQuestionType()=="actor"){
+        }else if(getQuestionType().equals("actor")){
             this.question="what movie was  "+question+" in?";
 
-        }else if(getQuestionType()=="category"){
+        }else if(getQuestionType().equals("category")){
             this.question="what movie is apart of  "+question+" category?";
 
         }

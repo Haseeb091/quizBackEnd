@@ -1,13 +1,10 @@
-package Project.FilmBackend;
+package Project.FilmBackEnd;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.Year;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name="film")

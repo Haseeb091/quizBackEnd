@@ -1,4 +1,4 @@
-package Project.FilmBackend;
+package Project.FilmBackEnd;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
