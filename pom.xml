@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>Project</groupId>
-	<artifactId>FilmBackend</artifactId>
+	<artifactId>FilmBackEnd</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>FilmBackend</name>
+	<name>FilmBackEnd</name>
 	<description>Backend</description>
 	<properties>
 		<maven.compiler.source>18</maven.compiler.source>
