@@ -22,11 +22,12 @@ public class CategoryTest {
             System.out.println("Unparseable using " + dateFormatter);
         }
 
+
         Category testCategory=new Category(1,"Action",lastUpdate);
 
         Assertions.assertEquals(1,testCategory.getCategoryId(),"category id should be 1");
 //
-        Assertions.assertEquals("Thu Nov 11 00:00:00 GMT 2021",testCategory.getLastUpdate().toString(),"Last update is not correct");
+        Assertions.assertEquals("2021-11-11",dateFormatter.format(testCategory.getLastUpdate()),"Last update is not correct");
         Assertions.assertEquals("Action",testCategory.getCategoryName(),"category name is incorrect should be action");
 
 //
@@ -92,7 +93,7 @@ public class CategoryTest {
 
         Category testCategory=new Category(1,"Action",lastUpdate);
 
-        Assertions.assertEquals("Thu Nov 11 00:00:00 GMT 2021",testCategory.getLastUpdate().toString(),"Last update is not correct");
+        Assertions.assertEquals("2021-11-11",dateFormatter.format(testCategory.getLastUpdate()),"Last update is not correct");
 
         try {
             lastUpdate = dateFormatter.parse("2021-11-12");
@@ -100,7 +101,7 @@ public class CategoryTest {
             System.out.println("Unparseable using " + dateFormatter);
         }
         testCategory.setLastUpdate(lastUpdate);
-        Assertions.assertEquals("Fri Nov 12 00:00:00 GMT 2021",testCategory.getLastUpdate().toString(),"Last update is not correct");
+        Assertions.assertEquals("2021-11-12",dateFormatter.format(testCategory.getLastUpdate()),"Last update is not correct");
 
 
 
