@@ -18,6 +18,14 @@ public class Actor {
 
 
     }
+    public Actor(){
+
+        this.actorId=actorId;
+        this.firstName=firstName;
+        this.lastName=lastName;
+
+
+    }
 
     @Id
     @Column(name = "actor_id")
