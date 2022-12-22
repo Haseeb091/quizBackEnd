@@ -3,6 +3,7 @@ package project.filmbackend;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.Year;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,11 +33,16 @@ public class Language {
     @OneToMany(mappedBy = "language" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)// this one broke it when eager ??
      Set<Film> films = new HashSet<>();
 
+    public Language(int languageId, String languageName, Date lastUpdate){
+        this.languageId=languageId;
+        this.name=languageName;
+        this.lastUpdate=lastUpdate;
+
+    }
     public Language(){
 
 
     }
-
 
 
     public int getLanguageId() {
