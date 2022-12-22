@@ -107,7 +107,7 @@ public class Film {
         this.releaseYear=releaseYear;
 
     }
-//
+
     public int getLanguageId() {
         return languageId;
     }
@@ -119,10 +119,20 @@ public class Film {
 
 
 
-    public Film(){
-
+    public Film(int filmId,int languageId,Year releaseYear,String description,String title){
+this.filmId=filmId;
+this.languageId=languageId;
+this.releaseYear=releaseYear;
+this.description=description;
+this.title=title;
 
     }
+
+    public Film(){
+
+    }
+
+
 
 
 }
