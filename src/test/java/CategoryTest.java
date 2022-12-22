@@ -90,7 +90,7 @@ public class CategoryTest {
         } catch (ParseException e) {
             System.out.println("Unparseable using " + dateFormatter);
         }
-//
+
         Category testCategory=new Category(1,"Action",lastUpdate);
 
         Assertions.assertEquals("2021-11-11",dateFormatter.format(testCategory.getLastUpdate()),"Last update is not correct");
