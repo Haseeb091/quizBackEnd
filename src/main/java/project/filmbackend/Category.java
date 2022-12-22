@@ -58,10 +58,12 @@ public class Category {
 
     }
 
-    public Category(int categoryId,String categoryName){
+    public Category(int categoryId,String categoryName, Date lastUpdate){
 
         this.categoryId=categoryId;
         this.categoryName=categoryName;
+        this.lastUpdate=lastUpdate;
+
 
 
     }
