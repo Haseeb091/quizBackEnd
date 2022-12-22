@@ -20,9 +20,6 @@ public class Actor {
     }
     public Actor(){
 
-        this.actorId=actorId;
-        this.firstName=firstName;
-        this.lastName=lastName;
 
 
     }
