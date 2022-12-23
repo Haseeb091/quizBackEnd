@@ -29,7 +29,7 @@ public interface FilmRepository extends JpaRepository<Film,Integer> {
                     " WHERE release_year != :year"+
                     " order by rand(:seed) "+
                     " limit :dataLimit ;" , nativeQuery = true)
-    ArrayList<Date> getMoviesNotOfYear(@Param("year") Year year, @Param("dataLimit") int dataLimit,@Param("seed") int seed);
+    ArrayList<Date> getRandomYearNotEqual(@Param("year") Year year, @Param("dataLimit") int dataLimit,@Param("seed") int seed);
 
 
 

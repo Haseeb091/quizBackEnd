@@ -1,5 +1,6 @@
 package project.filmbackend;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -25,36 +26,26 @@ public class ShowSingleActorStepDef {
     LanguageRepository languageRepository;
 
     int actorId;
-    private  static Response response;
-    RequestSpecification request;
+
 
     Actor chosenActor;
 
     @Given("actor exists with id {int}")
     public void actor_exists_with_id(int id){
 
-        RestAssured.baseURI  =  "http://localhost:8080";
-         request  =  given();
-    this.actorId=id;
+
 
         actorRepository.findById(id)
                 .orElseThrow(() -> new ResourceAccessException("cant acsess "+id));
+        actorId=id;
 
     }
 
     @When("i request the actors details")
     public void i_request_the_actors_details(){
-        response  =  request.contentType(ContentType.JSON)
-                .when()
-                .get("/home/getCategoryQuestion/1/1")
-                .then()
-                .extract().response();
 
-        JsonPath jsonPathEvaluator = response.jsonPath();
-        System.out.println("tesssst");
-        System.out.println(jsonPathEvaluator.get("possibleAnswers")+"");
 
-        chosenActor= actorRepository.findById(actorId)
+        chosenActor=actorRepository.findById(actorId)
                 .orElseThrow(() -> new ResourceAccessException("cant acsess "+actorId));
 
         Assertions.assertNotEquals(null,chosenActor,"Actor is null");

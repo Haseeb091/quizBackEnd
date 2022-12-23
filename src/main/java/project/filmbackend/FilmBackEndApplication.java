@@ -46,7 +46,6 @@ public class FilmBackEndApplication {
 	}
 
 
-//this ones working
 	@GetMapping("/getRandomMovies/{seed}/{dataLimit}")
 	public @ResponseBody
 	Iterable<Film> getRandomMovies(@PathVariable int seed, @PathVariable int dataLimit) {
@@ -59,7 +58,6 @@ public class FilmBackEndApplication {
 
 	}
 
-	// another query needed to get the language and another one to get languages that are not equal to input parameter
 
 
 
@@ -74,7 +72,7 @@ public class FilmBackEndApplication {
 
 		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException(""));
 
-		ArrayList<Date>filmDates=filmRepository.getMoviesNotOfYear(filmQuestion.getReleaseYear(),3,seed);
+		ArrayList<Date>filmDates=filmRepository.getRandomYearNotEqual(filmQuestion.getReleaseYear(),3,seed);
 		ArrayList<String>incorrectOptions=new ArrayList<>();
 
 
@@ -95,12 +93,7 @@ public class FilmBackEndApplication {
 
 
 		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException(""));
-
-
 		ArrayList<String>incorrectOptions=languageRepository.getRandomLanguages(3,seed,filmQuestion.getLanguageId());
-
-
-
 
 		return new BasicFilmQuestion(filmQuestion.getTitle(),"language",incorrectOptions,filmQuestion.getLanguage().getName(),seed);
 
@@ -114,7 +107,6 @@ public class FilmBackEndApplication {
 
 		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException(""));
 
-// use actor id to find film where actor not in there
 		List<Actor>allActors =filmQuestion.getActors();
 		Collections.shuffle(allActors, new Random(seed));
 		Actor actorQuestion=allActors.get(0);
@@ -133,7 +125,6 @@ public class FilmBackEndApplication {
 
 		Film filmQuestion= filmRepository.findById(id).orElseThrow(() -> new ResourceAccessException(""));
 
-// use actor id to find film where actor not in there
 		List<Category>categories =filmQuestion.getCategories();
 
 		Category categoryQuestion=categories.get(0);

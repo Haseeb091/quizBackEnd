@@ -23,9 +23,9 @@ import project.filmbackend.Actor;
     public void actorIdGetAndSet(){
         Actor testActor=new Actor(1,"bob","smith");
 
-        Assertions.assertEquals(1,testActor.getActorId(),"actor id should be 1");
+        Assertions.assertEquals(1,testActor.getActorId());
        testActor.setActorId(2);
-        Assertions.assertEquals(2,testActor.getActorId(),"actor id should be 2");
+        Assertions.assertEquals(2,testActor.getActorId());
 
 
 
@@ -35,9 +35,9 @@ import project.filmbackend.Actor;
     public void actorFirstNameGetAndSet(){
         Actor testActor=new Actor(1,"bob","smith");
 
-        Assertions.assertEquals("bob",testActor.getFirstName(),"actor first name should be bob but isnt");
+        Assertions.assertEquals("bob",testActor.getFirstName());
         testActor.setFirstName("bobby");
-        Assertions.assertEquals("bobby",testActor.getFirstName(),"actor first name should be bobby but isnt");
+        Assertions.assertEquals("bobby",testActor.getFirstName());
 
 
 
@@ -47,9 +47,9 @@ import project.filmbackend.Actor;
     public void actorLastNameGetAndSet(){
         Actor testActor=new Actor(1,"bob","smith");
 
-        Assertions.assertEquals("smith",testActor.getLastName(),"actor last name should be smith but isnt");
+        Assertions.assertEquals("smith",testActor.getLastName());
         testActor.setLastName("james");
-        Assertions.assertEquals("james",testActor.getLastName(),"actor last name should be james but isnt");
+        Assertions.assertEquals("james",testActor.getLastName());
 
 
 
